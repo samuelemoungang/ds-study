@@ -6,7 +6,7 @@
   let LANG = localStorage.getItem("ds_lang") || "en";
   const T = {
     en: {
-      tagline: "Study hub · HES-SO Valais · Technologies du Vivant",
+      tagline: "Study hub · HES-SO Valais · Technologies du Vivant · Created by Samuele Moungang",
       sub: "Theory quizzes & code completion drills built from your lecture slides.",
       modules: "Modules",
       all: "All modules",
