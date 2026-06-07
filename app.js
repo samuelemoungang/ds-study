@@ -36,7 +36,7 @@
       mixHint: "Tip: blanks are case-sensitive for code."
     },
     fr: {
-      tagline: "Plateforme de révision · HES-SO Valais · Technologies du Vivant",
+      tagline: "Plateforme de révision · HES-SO Valais · Technologies du Vivant · Created by Samuele Moungang",
       sub: "Quiz théoriques et exercices de complétion de code issus de vos diapositives.",
       modules: "Modules",
       all: "Tous les modules",
