@@ -990,4 +990,238 @@ const MODULES = [
       }
     ]
   }
+,
+
+  /* ----------------------------------------------------------------------- */
+  /*  MOCK EXAM — questions du professeur (Cyberlearn), bilingue FR/DE/EN     */
+  {
+    id: "mockexam",
+    title: "Mock Exam",
+    fr: "Examen blanc",
+    icon: "📝",
+    blurb: "The professor's mock exam: method choice, regression, ML tuning, time series, FAIR.",
+    quiz: [
+      {
+        q: "WINE — Does mean alcohol differ significantly between the four regions (A, B, C, D)? Which method?",
+        fr: "VIN — L'alcool moyen diffère-t-il significativement entre les quatre régions (A, B, C, D) ? Quelle méthode ?",
+        options: [
+          "One-way ANOVA",
+          "K-Means clustering",
+          "Independent t-test",
+          "Simple linear regression"
+        ],
+        a: 0
+      },
+      {
+        q: "WINE — A significant difference was found. Which PAIRS of regions differ? Which method?",
+        fr: "VIN — Une différence significative a été trouvée. Quelles PAIRES de régions diffèrent ? Quelle méthode ?",
+        options: [
+          "Chi-squared test",
+          "Linear regression of alcohol on region",
+          "Six independent pairwise t-tests",
+          "Tukey HSD post-hoc test"
+        ],
+        a: 3
+      },
+      {
+        q: "WINE — Visualize the 11 physico-chemical variables in 2D to spot natural groups. Which method?",
+        fr: "VIN — Visualiser les 11 variables physico-chimiques en 2D pour repérer des groupes naturels. Quelle méthode ?",
+        options: [
+          "One-way ANOVA",
+          "Principal Component Analysis (PCA)",
+          "Independent t-test",
+          "Multivariate linear regression"
+        ],
+        a: 1
+      },
+      {
+        q: "WINE — Predict whether a new wine is good quality (score ≥ 7) from 11 measurements. Which method?",
+        fr: "VIN — Prédire si un vin est de bonne qualité (note ≥ 7) à partir de 11 mesures. Quelle méthode ?",
+        options: [
+          "Classification (e.g. Random Forest or kNN)",
+          "Linear regression",
+          "PCA followed by K-Means",
+          "One-way ANOVA"
+        ],
+        a: 0
+      },
+      {
+        q: "WINE — Does mean alcohol depend on region AND vintage simultaneously, with possible interaction? Which method?",
+        fr: "VIN — L'alcool moyen dépend-il de la région ET de l'année, avec interaction possible ? Quelle méthode ?",
+        options: [
+          "t-test",
+          "Two-way ANOVA",
+          "Four separate one-way ANOVAs",
+          "Logistic regression"
+        ],
+        a: 1
+      },
+      {
+        q: "MICE — ~2% missing values in protein columns (some up to 25%). Best approach before training a classifier?",
+        fr: "SOURIS — ~2% de valeurs manquantes dans les protéines (certaines jusqu'à 25%). Meilleure approche avant un classifieur ?",
+        options: [
+          "Drop every row with at least one missing value",
+          "Replace all missing values with zero",
+          "Ignore them — scikit-learn handles missing values automatically",
+          "Examine the missing-data pattern, then impute (e.g. SimpleImputer with mean/median)"
+        ],
+        a: 3
+      },
+      {
+        q: "MICE — Pearson r = 0.45 (p < 0.001) between pERK_N and pAKT_N. Correct interpretation?",
+        fr: "SOURIS — Corrélation de Pearson r = 0.45 (p < 0.001) entre pERK_N et pAKT_N. Interprétation correcte ?",
+        options: [
+          "One variable explains 45% of the other's variance",
+          "The correlation is weak and not significant",
+          "Moderate positive, statistically significant correlation; ~20% shared variance (r² ≈ 0.20)",
+          "The two proteins are identical"
+        ],
+        a: 2
+      },
+      {
+        q: "MICE — 8 classes have unequal sizes (105–150 mice). Best practice before training a classifier?",
+        fr: "SOURIS — Les 8 classes ont des effectifs inégaux (105–150 souris). Meilleure pratique avant un classifieur ?",
+        options: [
+          "Global accuracy is enough; the size gaps are negligible",
+          "Use a stratified split by class and report precision/recall per class (not just global accuracy)",
+          "A simple train_test_split; the effect is negligible",
+          "Remove the rare classes and keep only the most frequent"
+        ],
+        a: 1
+      },
+      {
+        q: "MICE — A student applies StandardScaler to ALL proteins on the FULL dataset. What problem does this cause?",
+        fr: "SOURIS — Un étudiant applique StandardScaler à TOUTES les protéines sur le jeu COMPLET. Quel problème ?",
+        options: [
+          "Data leakage: the mean/std used to scale contain test-set information, biasing evaluation. Fit the scaler on train only",
+          "Normalization must be done after training the model",
+          "No problem — this is standard practice",
+          "StandardScaler does not work on biological data"
+        ],
+        a: 0
+      },
+      {
+        q: "ALCOHOLS — A degree-1 linear model gets R² ≈ 0.82 on test data. How to interpret it?",
+        fr: "ALCOOLS — Un modèle linéaire (degré 1) obtient R² ≈ 0.82 sur le test. Comment l'interpréter ?",
+        options: [
+          "82% of the boiling-point variability is explained by the carbon count in the model",
+          "The model is 82% likely to be correct on any prediction",
+          "The model is wrong on 82% of predictions",
+          "The correlation between carbons and boiling point equals 0.82"
+        ],
+        a: 0
+      },
+      {
+        q: "ALCOHOLS — The carbon-count coefficient (degree 1) is about +22 K per carbon. Correct interpretation?",
+        fr: "ALCOOLS — Le coefficient du nombre de carbones (degré 1) vaut ~+22 K par carbone. Interprétation correcte ?",
+        options: [
+          "The coefficient has no physical unit",
+          "For each extra carbon atom, the predicted boiling point rises by about 22 K",
+          "22% of the boiling point is due to the carbon count",
+          "All molecules have a boiling point of 22 K"
+        ],
+        a: 1
+      },
+      {
+        q: "ALCOHOLS — A degree-8 model has high train R² but very negative test R² (≪ 0) on 72 molecules. Which phenomenon?",
+        fr: "ALCOOLS — Un modèle degré 8 a un R² train élevé mais un R² test très négatif (≪ 0) sur 72 molécules. Quel phénomène ?",
+        options: [
+          "A very negative R² is impossible and signals a bug",
+          "Underfitting: the model is too simple",
+          "Overfitting: the model is too complex",
+          "Linear regression does not work in chemistry"
+        ],
+        a: 2
+      },
+      {
+        q: "ALCOHOLS — Model C adds a random variable to B; R² unchanged but AIC rises ~+1.5. Conclusion?",
+        fr: "ALCOOLS — Le modèle C ajoute une variable aléatoire à B ; R² inchangé mais AIC monte de ~+1.5. Conclusion ?",
+        options: [
+          "The model improved, because adding variables always raises R²",
+          "Add even more random variables to improve the model",
+          "AIC is irrelevant; only R² matters",
+          "The model got worse: the random variable adds complexity without predictive value — prefer Model B"
+        ],
+        a: 3
+      },
+      {
+        q: "WINE ML — At max_depth = 1, both train and test accuracy are low (near the 86% naive baseline). Which phenomenon?",
+        fr: "VIN ML — À profondeur = 1, accuracy train ET test sont basses (proches de la baseline naïve 86%). Quel phénomène ?",
+        options: [
+          "Overfitting: the tree is too complex",
+          "The dataset is unusable",
+          "Accuracy near the baseline is always excellent",
+          "Underfitting: a single-decision tree is too simple"
+        ],
+        a: 3
+      },
+      {
+        q: "WINE ML — Random Forest says alcohol is the most important variable (≈ 0.17). What does this score NOT tell you?",
+        fr: "VIN ML — La Random Forest dit que l'alcool est la variable la plus importante (≈ 0.17). Que n'indique PAS ce score ?",
+        options: [
+          "That this variable contributes most to class separation in the trees",
+          "The direction of the effect, the causality, or the shape (linear or not) of the relationship",
+          "That the score is relative to the model's other variables",
+          "That this variable is used in most of the trees"
+        ],
+        a: 1
+      },
+      {
+        q: "FAIR — A PRIDE dataset has a DOI, a stable ProteomeXchange ID (PXD…) and rich metadata. Which FAIR criterion is most clearly satisfied?",
+        fr: "FAIR — Un jeu PRIDE a un DOI, un identifiant ProteomeXchange (PXD…) stable et des métadonnées riches. Quel critère FAIR est le plus clairement satisfait ?",
+        options: [
+          "Accessible",
+          "Findable",
+          "Interoperable",
+          "Reusable"
+        ],
+        a: 1
+      }
+    ],
+    code: [],
+    open: [
+      {
+        title: "Q6 — Histogram (a) vs Boxplot (b): what different information?",
+        fr: "Q6 — Histogramme (a) vs Boxplot (b) : quelles informations différentes ?",
+        prompt: "Looking at the histogram of BDNF_N by genotype and the boxplot of pERK_N by class: what different information does each convey, and which scientific question is each best suited for?",
+        promptFr: "En regardant l'histogramme de BDNF_N par génotype et le boxplot de pERK_N par classe : quelles informations différentes apportent-ils, et à quelle question scientifique chacun convient-il le mieux ?",
+        model: "A histogram shows the full SHAPE of a single variable's distribution: modality (one peak or several), skewness, spread, and where most values fall. Overlaying two genotypes lets you compare whole distributions and see how much they overlap. It is best for 'what does the distribution of this protein look like, and does it differ between two groups?'\n\nA boxplot summarizes the distribution with five numbers (median, Q1, Q3, whiskers) plus outliers, and lays many groups side by side compactly. It hides the fine shape (a bimodal group can look the same as a unimodal one) but makes it easy to compare medians, spread, and outliers across MANY groups at once. It is best for 'how do the level and variability of this protein compare across the 8 experimental classes, and are there outliers?'\n\nIn short: histogram = detailed shape of one/two distributions; boxplot = compact comparison of summary statistics across many groups."
+      },
+      {
+        title: "Q15 — Tree depth: where does overfitting start & how to choose final depth?",
+        fr: "Q15 — Profondeur d'arbre : où commence le surapprentissage & comment choisir la profondeur finale ?",
+        prompt: "From the bias–variance curve: (i) at which depth does the tree start to overfit? (ii) How would you choose the final depth, and why is optimizing test accuracy on a single split not enough?",
+        promptFr: "À partir de la courbe biais–variance : (i) à quelle profondeur l'arbre commence-t-il à surapprendre ? (ii) Comment choisir la profondeur finale, et pourquoi optimiser l'accuracy de test sur une seule séparation ne suffit-il pas ?",
+        model: "(i) Overfitting begins where the curves diverge: train accuracy keeps climbing toward 1.0 while test accuracy stops improving and then declines. On this curve that is around max_depth ≈ 5–7 (test peaks there, then train rises to 1.0 while test drops to ~0.90). So beyond depth ~5 the tree starts memorizing noise.\n\n(ii) Choose the depth with the best GENERALIZATION, not the best train score — typically the smallest depth at the test plateau (parsimony: prefer the simpler model when performance is equal). But a single train/test split gives a noisy estimate: that one test set could be lucky or unlucky, so its peak may not be the true optimum. Use k-fold cross-validation (average accuracy over several folds) to pick the depth, ideally with a separate held-out test set used only once at the end. This reduces dependence on one arbitrary split and gives a more reliable depth choice."
+      },
+      {
+        title: "Q18 — Imbalanced classes: why accuracy misleads, which metrics, how to detect good wines",
+        fr: "Q18 — Classes déséquilibrées : pourquoi l'accuracy trompe, quelles métriques, comment détecter les bons vins",
+        prompt: "Good wines (rare class) are often misclassified as 'not good': recall on the positive class is low (≈ 0.6) yet overall accuracy is > 0.90, and a naive 'always not good' baseline already reaches ≈ 0.86. Discuss (i) why accuracy alone is misleading under strong class imbalance, (ii) which metrics to prefer, (iii) at least one strategy to better detect good wines.",
+        promptFr: "Les bons vins (classe rare) sont souvent classés à tort « pas bons » : le rappel de la classe positive est faible (≈ 0.6) alors que l'accuracy globale dépasse 0.90, et une baseline naïve « toujours pas bon » atteint déjà ≈ 0.86. Discutez (i) pourquoi l'accuracy seule est trompeuse, (ii) quelles métriques privilégier, (iii) au moins une stratégie pour mieux détecter les bons vins.",
+        model: "(i) With ~14% positives, a model that predicts 'not good' for everything scores ~86% accuracy while finding zero good wines. Accuracy is dominated by the majority class, so a high value can hide complete failure on the class that actually matters. Here 0.90 accuracy is barely above the 0.86 baseline.\n\n(ii) Prefer metrics that focus on the positive (rare) class: precision, recall, and F1 for the 'good' class; the confusion matrix; and threshold-independent measures like ROC-AUC or, better for imbalance, the precision–recall AUC. Report per-class numbers, not just the global score.\n\n(iii) Strategies (any one): use class_weight='balanced' (or scale_pos_weight) so errors on the rare class cost more; resample — oversample the minority (e.g. SMOTE) or undersample the majority; lower the decision threshold to trade precision for recall; or gather/engineer better features. Always evaluate with stratified cross-validation and the metrics above."
+      },
+      {
+        title: "Q19 — Global Z vs rolling Z (6 h vs 24 h): how it works, window effect, how to choose",
+        fr: "Q19 — Z global vs Z glissant (6 h vs 24 h) : fonctionnement, effet de la fenêtre, comment choisir",
+        prompt: "Compare the three approaches (global Z, rolling Z 6 h, rolling Z 24 h). Explain (i) how the rolling Z-score works, (ii) why the result depends strongly on window size, (iii) how you would choose the window.",
+        promptFr: "Comparez les trois approches (Z global, Z glissant 6 h, Z glissant 24 h). Expliquez (i) comment fonctionne le Z-score glissant, (ii) pourquoi le résultat dépend fortement de la taille de fenêtre, (iii) comment choisir la fenêtre.",
+        model: "(i) The rolling Z-score computes a LOCAL mean and standard deviation over a moving window of recent points, then Z = (value − rolling_mean) / rolling_std for each point; a point is flagged when |Z| > 3. Unlike the global Z (one fixed mean/std for the whole batch), the baseline adapts over time, so it works even when the signal drifts or is non-stationary.\n\n(ii) The window sets what counts as 'normal'. A short window (6 h) reacts fast and follows the local level, so a slow drift gets absorbed into the moving mean and may NOT be flagged, while brief spikes and noise trigger many alerts (false positives). A long window (24 h) is smoother and more stable, catches slow drifts better, but reacts slowly and can miss short transients or flag the start/end of an event late. The global Z sits at the extreme: it flags the big fault clearly but is fooled by any overall drift.\n\n(iii) Choose the window from the timescale of the anomalies you care about and the sampling rate: long enough to give a stable mean/std (smooth out noise) but short enough to still react within the event's duration. Tune it against the Fault_ref ground truth — pick the window maximizing detection (recall) while keeping false positives acceptable, e.g. via precision/recall on the labelled faults."
+      },
+      {
+        title: "Q20 — Resampling vs rolling mean for visualizing temperature trend",
+        fr: "Q20 — Rééchantillonnage vs moyenne glissante pour visualiser la tendance",
+        prompt: "To visualize the slow temperature trend over the batch, you can use resampling (e.g. hourly mean with resample) or a rolling mean (rolling().mean()). Explain (i) the fundamental difference, (ii) which better preserves short transitions (like a fault onset) and which smooths the slow drift more, (iii) which you'd recommend for the long-term trend and which for monitoring brief anomalies.",
+        promptFr: "Pour visualiser la tendance lente sur le batch, on peut utiliser un rééchantillonnage (moyenne horaire avec resample) ou une moyenne glissante (rolling().mean()). Expliquez (i) la différence fondamentale, (ii) laquelle préserve mieux les transitions courtes et laquelle lisse plus la dérive lente, (iii) laquelle recommander pour la tendance long terme et laquelle pour surveiller des anomalies brèves.",
+        model: "(i) Resampling CHANGES the time resolution: it groups the series into new fixed bins (e.g. one value per hour) and aggregates each bin, so the output has FEWER points. A rolling mean KEEPS every timestamp: each point becomes the average of itself and its neighbours within a window, so the output has the SAME number of points, just smoothed.\n\n(ii) A rolling mean with a small window preserves short transitions best because it keeps full time resolution and only lightly smooths — the fault onset stays visible. Resampling to a coarse frequency (or a long rolling window) smooths the slow drift more but blurs or hides short events, since brief spikes get averaged into a wide bin.\n\n(iii) For the long-term trend, resampling (e.g. hourly/daily mean) — or a long rolling window — gives a clean, compact view of the slow drift. For monitoring brief anomalies, keep full resolution and use a short rolling window (or the raw signal with a rolling Z-score), so short transients are not averaged away."
+      },
+      {
+        title: "Q22 — PRIDE repository: two FAIR strengths and one weakness",
+        fr: "Q22 — Dépôt PRIDE : deux forces FAIR et une faiblesse",
+        prompt: "Identify two strengths and one weakness of the PRIDE repository with respect to the FAIR principles.",
+        promptFr: "Identifiez deux forces et une faiblesse du dépôt PRIDE par rapport aux principes FAIR.",
+        model: "Strengths (pick two):\n• Findable — every dataset gets a persistent DOI and a stable ProteomeXchange identifier (PXD…), plus rich, searchable metadata (authors, organism, instrument, protocol). Persistent IDs + metadata are exactly the F principle.\n• Accessible — raw files are freely downloadable over standard protocols (FTP/Globus) with no login required, and a CC0 / public-domain licence; the metadata stays available even via the identifier. That satisfies A.\n• (Also defensible: Interoperable — metadata use the controlled PSI-MS vocabulary, a community standard.)\n\nWeakness (pick one):\n• Reusability/Interoperability is limited by the vendor-specific .raw (Thermo) raw format, which needs proprietary software to read — not an open, fully interoperable format. \n• Or: reuse metadata can be incomplete (e.g. 'Dataset reuses: not available', diseases/quantification 'Unknown', publication still pending), which weakens the 'richly described for reuse' part of R."
+      }
+    ]
+  }
 ];

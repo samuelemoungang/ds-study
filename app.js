@@ -6,12 +6,13 @@
   let LANG = localStorage.getItem("ds_lang") || "en";
   const T = {
     en: {
-      tagline: "Study hub · HES-SO Valais · Technologies du Vivant · Created by Samuele Moungang",
+      tagline: "Study hub · HES-SO Valais · Technologies du Vivant",
       sub: "Theory quizzes & code completion drills built from your lecture slides.",
       modules: "Modules",
       all: "All modules",
       quiz: "Theory quiz",
       code: "Fill the code",
+      open: "Open questions",
       start: "Start",
       check: "Check",
       next: "Next",
@@ -28,6 +29,10 @@
       reveal: "Reveal solution",
       questionsLbl: "questions",
       drillsLbl: "code drills",
+      openLbl: "open questions",
+      yourAnswer: "Write your answer here (not graded — compare with the model answer)…",
+      modelAnswer: "Model answer",
+      showModel: "Show model answer",
       pickMode: "Choose a study mode",
       progress: "Progress",
       empty: "Type your answers in the blanks, then press Check.",
@@ -36,12 +41,13 @@
       mixHint: "Tip: blanks are case-sensitive for code."
     },
     fr: {
-      tagline: "Plateforme de révision · HES-SO Valais · Technologies du Vivant · Created by Samuele Moungang",
+      tagline: "Plateforme de révision · HES-SO Valais · Technologies du Vivant",
       sub: "Quiz théoriques et exercices de complétion de code issus de vos diapositives.",
       modules: "Modules",
       all: "Tous les modules",
       quiz: "Quiz théorique",
       code: "Compléter le code",
+      open: "Questions ouvertes",
       start: "Commencer",
       check: "Vérifier",
       next: "Suivant",
@@ -58,6 +64,10 @@
       reveal: "Voir la solution",
       questionsLbl: "questions",
       drillsLbl: "exercices de code",
+      openLbl: "questions ouvertes",
+      yourAnswer: "Écrivez votre réponse ici (non notée — comparez avec le corrigé)…",
+      modelAnswer: "Réponse modèle",
+      showModel: "Afficher le corrigé",
       pickMode: "Choisissez un mode de révision",
       progress: "Progression",
       empty: "Remplissez les blancs puis cliquez sur Vérifier.",
@@ -97,12 +107,16 @@
     MODULES.forEach((m, i) => {
       const card = el("button", "card");
       card.style.setProperty("--d", i * 0.05 + "s");
+      const meta = [];
+      if (m.quiz && m.quiz.length) meta.push(`${m.quiz.length} ${t("questionsLbl")}`);
+      if (m.code && m.code.length) meta.push(`${m.code.length} ${t("drillsLbl")}`);
+      if (m.open && m.open.length) meta.push(`${m.open.length} ${t("openLbl")}`);
       card.innerHTML = `
         <span class="card-ix">${String(i + 1).padStart(2, "0")}</span>
         <span class="card-icon">${m.icon}</span>
         <h3>${LANG === "fr" ? m.fr : m.title}</h3>
         <p>${m.blurb}</p>
-        <span class="card-meta">${m.quiz.length} ${t("questionsLbl")} · ${m.code.length} ${t("drillsLbl")}</span>`;
+        <span class="card-meta">${meta.join(" · ")}</span>`;
       card.onclick = () => renderModule(m);
       grid.appendChild(card);
     });
@@ -123,18 +137,31 @@
     document.getElementById("backBtn").onclick = renderHome;
 
     const modes = el("div", "mode-row");
-    const quizBtn = el("button", "mode-card quiz");
-    quizBtn.innerHTML = `<span class="mode-em">✎</span><h3>${t("quiz")}</h3>
-      <p>${m.quiz.length} ${t("questionsLbl")}</p><span class="go">${t("start")} →</span>`;
-    quizBtn.onclick = () => runQuiz(m);
 
-    const codeBtn = el("button", "mode-card code");
-    codeBtn.innerHTML = `<span class="mode-em">{ }</span><h3>${t("code")}</h3>
-      <p>${m.code.length} ${t("drillsLbl")}</p><span class="go">${t("start")} →</span>`;
-    codeBtn.onclick = () => runCode(m);
+    if (m.quiz && m.quiz.length) {
+      const quizBtn = el("button", "mode-card quiz");
+      quizBtn.innerHTML = `<span class="mode-em">✎</span><h3>${t("quiz")}</h3>
+        <p>${m.quiz.length} ${t("questionsLbl")}</p><span class="go">${t("start")} →</span>`;
+      quizBtn.onclick = () => runQuiz(m);
+      modes.appendChild(quizBtn);
+    }
 
-    modes.appendChild(quizBtn);
-    modes.appendChild(codeBtn);
+    if (m.code && m.code.length) {
+      const codeBtn = el("button", "mode-card code");
+      codeBtn.innerHTML = `<span class="mode-em">{ }</span><h3>${t("code")}</h3>
+        <p>${m.code.length} ${t("drillsLbl")}</p><span class="go">${t("start")} →</span>`;
+      codeBtn.onclick = () => runCode(m);
+      modes.appendChild(codeBtn);
+    }
+
+    if (m.open && m.open.length) {
+      const openBtn = el("button", "mode-card open");
+      openBtn.innerHTML = `<span class="mode-em">¶</span><h3>${t("open")}</h3>
+        <p>${m.open.length} ${t("openLbl")}</p><span class="go">${t("start")} →</span>`;
+      openBtn.onclick = () => runOpen(m);
+      modes.appendChild(openBtn);
+    }
+
     app.appendChild(modes);
   }
 
@@ -322,6 +349,62 @@
     row.appendChild(r); row.appendChild(b);
     wrap.appendChild(row);
     app.appendChild(wrap);
+  }
+
+  // ---- OPEN QUESTIONS -------------------------------------------------------
+  function runOpen(m) {
+    const items = m.open.slice();
+    let idx = 0;
+
+    function draw() {
+      const o = items[idx];
+      app.innerHTML = "";
+      const bar = el("div", "topbar");
+      const left = el("button", "link-btn", t("back"));
+      left.onclick = () => renderModule(m);
+      const mid = el("div", "tb-mid", `${LANG === "fr" ? m.fr : m.title} · ${t("open")}`);
+      const track = el("div", "track");
+      const fill = el("div", "fill");
+      fill.style.width = ((idx + 1) / items.length) * 100 + "%";
+      track.appendChild(fill);
+      const sc = el("div", "tb-score", `${idx + 1}/${items.length}`);
+      bar.appendChild(left); bar.appendChild(mid); bar.appendChild(track); bar.appendChild(sc);
+      app.appendChild(bar);
+
+      const wrap = el("div", "panel");
+      wrap.appendChild(el("div", "qnum", `${t("open")} · ${idx + 1}/${items.length}`));
+      wrap.appendChild(el("h2", "qtext", esc(LANG === "fr" ? o.fr : o.title)));
+      wrap.appendChild(el("p", "open-prompt", esc(LANG === "fr" ? o.promptFr : o.prompt)));
+
+      const ta = el("textarea", "open-input");
+      ta.placeholder = t("yourAnswer");
+      ta.spellcheck = false;
+      wrap.appendChild(ta);
+
+      const modelWrap = el("div", "model-answer");
+      modelWrap.innerHTML = `<div class="model-label">${t("modelAnswer")}</div><div class="model-body">${esc(o.model).replace(/\n/g, "<br>")}</div>`;
+      modelWrap.style.display = "none";
+      wrap.appendChild(modelWrap);
+
+      const row = el("div", "btn-row");
+      const showBtn = el("button", "primary", t("showModel"));
+      showBtn.onclick = () => {
+        modelWrap.style.display = "block";
+        showBtn.style.display = "none";
+        modelWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      };
+      const nextBtn = el("button", "ghost", idx === items.length - 1 ? t("done") : t("next") + " →");
+      nextBtn.onclick = () => {
+        idx++;
+        if (idx >= items.length) return renderModule(m);
+        draw();
+      };
+      row.appendChild(showBtn);
+      row.appendChild(nextBtn);
+      wrap.appendChild(row);
+      app.appendChild(wrap);
+    }
+    draw();
   }
 
   // ---- progress bar ---------------------------------------------------------
